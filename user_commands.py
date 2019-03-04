@@ -72,7 +72,7 @@ class User_Command(commands.Cog):
         ex="INSERT INTO ocs(id,name, HP, MAG, ATK) VALUES("+str(ctx.message.author.id)+",'"+name.content+"'"+","+"0,0,0)"
         await conn.execute(ex)
         await conn.close()
-        await ctx.send("Welcome to Creata "+ name)
+        await ctx.send("Welcome to Creata "+ name.content)
 
     @oc.command(name="show")
     async def oc_show(self, ctx):
@@ -83,9 +83,9 @@ class User_Command(commands.Cog):
         await conn.close()
         x= discord.Embed(title="Info")
         for i,j in v[0].items():
-            if(not(j)):
+            if( i=="id"):
                 continue
-            x.add_field(name=i,value=str(j), inline=False)
+            x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
         await ctx.send(embed=x)
   
         
