@@ -90,7 +90,21 @@ class User_Command(commands.Cog):
                 continue
             x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
         await ctx.send(embed=x)
-  
+
+    @oc.group(name="add")
+    async def oc_add(self, ctx):
+        pass
+
+    @add.command(name="hp")
+    async def oc_add_hp(self,ctx,args):
+        ex="SELECT HP FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=v[0][0]+int(args)
+        await con.execute("UPDATE OCS HP ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id)+")")
+        await conn.close()
+        await ctx.send(embed=x)
         
 def setup(bot):
     bot.add_cog(User_Command(bot))
