@@ -85,7 +85,10 @@ class User_Command(commands.Cog):
         for i,j in v[0].items():
             if( i=="id"):
                 continue
-            x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
+            elif(i=="image" and j ):
+                x.set_img(url=i)
+                continue
+            x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
         await ctx.send(embed=x)
   
         
