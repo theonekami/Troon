@@ -55,7 +55,7 @@ class User_Command(commands.Cog):
     async def oc_create(self, ctx):
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
-        y=conn.fetch("SELECT * FROM OCS WHERE ID=" +str(ctx.message.author.id))
+        y=await conn.fetch("SELECT * FROM OCS WHERE ID=" +str(ctx.message.author.id))
         if(len(y)):
             await ctx.send("You..You Already have an oc right? INSOLENCE")
             await conn.close()
