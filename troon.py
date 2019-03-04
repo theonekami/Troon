@@ -47,12 +47,10 @@ client=commands.Bot( command_prefix=('!','.', 'q ', 'Q ','Qualie '))
 
 @client.event
 async def on_ready():
-    print('Quailie ready')
+    print('Troon On')
     print('Created by Kaminolucky')
 ##
     home=client.get_channel(id=522127036022521871)
-    client.load_extension("item_commands")
-    client.load_extension("user_commands")
     await home.send("It is Balanced")
 
     return await client.change_presence(activity=discord.Game(name="with Sam's chode"))
