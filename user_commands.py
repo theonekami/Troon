@@ -33,8 +33,13 @@ def basic_check(ctx):  ##for funsies
     else:
         return False
 
-"""Create table users (id  bigint,money int , items varchar,smithing int, sxtraction int)"""
+def accept(a):
+    a=a.content.lower()
+    y=["y","yes","n","no"]
+    return a in y
 
+
+"""CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT, BIO VARCHAR, IMAGE VARCHAR)"""
 
 
 class User_Command(commands.Cog):
@@ -42,122 +47,46 @@ class User_Command(commands.Cog):
         self.bot=bot
 
 
-    @commands.command()
-    async def inventory(self, ctx):
+    @commands.group()
+    async def oc(self,ctx):
+        pass
+
+    @oc.command(name="create")
+    async def oc_create(self, ctx):
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
-        y=await conn.fetch("SELECT * FROM users WHERE id="+str(ctx.message.author.id))
-        if(len(y) == 0):
-            await ctx.send("creating new user")
-            await conn.execute("INSERT INTO USERS (id, money, smithing, extraction,smithexp,excexp) VALUES('" + str(ctx.message.author.id)+ "',0,1,1,0,0)")
-            y=await conn.fetch("SELECT * FROM users WHERE id="+str(ctx.message.author.id))
-        else:
-            await ctx.send("Fetching for ")
+        y=conn.fetch("SELECT * FROM OCS WHERE ID=" +str(ctx.message.author.id))
+        if(y):
+            await ctx.send("You..You Already have an oc right? INSOLENCE")
+            await conn.close()
+            return
+        await ctx.send("What is your name child?")
+        name=await self.bot.wait_for("message",timeout=120)
+        await ctx.send("Is " + name.content + " your Desired name?")
+        t= await self.bot.wait_for("message",timeout=120,check=accept)
+        while(t.content.lower()=="n" or t.content.lower()=="NO"):
+            await ctx.send("What is your name child?")
+            name=await self.bot.wait_for("message",timeout=120)
+            await ctx.send("Is " + rew.content + " your Desired name?")
+            t= await self.bot.wait_for("message",timeout=120,check=accept)
+        ex="INSERT INTO ocs(id,name, HP, MAG, ATK) VALUES("+str(ctx.message.author.id)+"'"+name+"'"+","+"0,0,0)"
+        await conn.execute(ex)
         await conn.close()
+        await ctx.send("Welcome to Creata "+ name)
 
-        for i in y:
-            t=self.bot.get_user(id=i[0])
-            x= discord.Embed(title= t.name)
-            x.add_field(name="Money:" ,value=":gem: "+str(i[1]), inline=True)
-            x.add_field(name="Smithing level:", value=str(i[3]),inline=True)
-            x.add_field(name="Extraction level:", value=str(i[4]),inline=True)
-            w=""
-            if i[2]==None:
-                w="None"
-            else:
-                u=i[2].split("|")
-                for j in u:
-                    w+=j+"\n"
-            x.add_field(name="Items:", value=w,inline=False)
-            
+    @oc.command(name="show")
+    async def oc_show(self, ctx):
+        ex="SELECT * FROM OCS WHERE( id= "+str(ctx.message.author.id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        await conn.close()
+        x= discord.Embed(title="Info")
+        for i,j in v[0].items():
+            if(not(j)):
+                continue
+             x.add_field(name=i,value=str(j), inline=False)
         await ctx.send(embed=x)
-
-    @commands.command()
-    async def throw(self, ctx,arg):
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = await asyncpg.connect(DATABASE_URL)
-        y=await conn.fetch("SELECT items FROM users WHERE id="+str(ctx.message.author.id))
-        for i in y:
-            for j in i[0].split("|"):
-                k= j.split(":")
-                
-        await conn.close()
-
-    @commands.group()
-    async def money(self, ctx):
-        pass
-
-    @money.command(name="add")
-    @commands.check(basic_check)
-    async def money_add(self,ctx,args):
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = await asyncpg.connect(DATABASE_URL)
-        men=ctx.message.mentions
-        rol=ctx.message.role_mentions
-        if(men):
-            for i in men:
-                x=await conn.fetch("SELECT money FROM users WHERE id="+str(i.id))
-                y=await conn.fetch("UPDATE users SET money ="+ str(int(args)+x[0][0])+" WHERE id=" + str(i.id))
-
-        elif(rol):
-            for i in rol[0].members:
-                x=await conn.fetch("SELECT money FROM users WHERE id="+str(i.id))
-                y=await conn.fetch("UPDATE users SET money ="+ str(int(args)+x[0][0])+" WHERE id=" + str(i.id))
-        await conn.close()
-        await ctx.send("Money added Papa")
-
-    @commands.group()
-    async def level(self, ctx):
-        pass
-
-    @level.command(name="extraction")
-    @commands.check(basic_check)
-    async def level_ex(self,ctx,args=1):
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = await asyncpg.connect(DATABASE_URL)
-        x=await conn.fetch("SELECT excexp FROM users WHERE id="+str(ctx.message.mentions[0].id))
-        y=await conn.fetch("SELECT extraction FROM users WHERE id="+str(ctx.message.mentions[0].id))
-        if(len(x)==0):
-            await ctx.send("User doesn't exist. Tell them to use the inventory command papa!")
-            return
-        t=int(x[0][0])+int(args)
-        if(y[0][0]>=5):
-            await ctx.send("You have reached the max level")
-            await conn.close()
-            return
-        while(t>20):
-            await conn.execute("UPDATE users SET extraction ="+str(y[0][0]+1)+" WHERE id=" + str(ctx.message.mentions[0].id))
-            t-=20
-            await ctx.message.mentions[0].send("You have leveled up! Higher quality actions are now possible")
-        y=await conn.fetch("UPDATE users SET excexp ="+ str(t)+" WHERE id=" + str(ctx.message.mentions[0].id))
-        await ctx.send("Exp Up! Papa")
-        await conn.close()
-
-    @level.command(name="smithing")
-    @commands.check(basic_check)
-    async def level_sm(self,ctx,args=1):
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = await asyncpg.connect(DATABASE_URL)
-        x=await conn.fetch("SELECT smithexp FROM users WHERE id="+str(ctx.message.mentions[0].id))
-        y=await conn.fetch("SELECT smithing FROM users WHERE id="+str(ctx.message.mentions[0].id))
-
-        if(len(x)==0):
-            await ctx.send("User doesn't exist. Tell them to use the inventory command papa!")
-            await conn.close()
-            return
-        t=int(x[0][0])+int(args)
-        if(y[0][0]>=5):
-            await ctx.send("You have reached the max level")
-            await conn.close()
-        while(t>20):
-            await conn.execute("UPDATE users SET smithing ="+str(y[0][0]+1)+" WHERE id=" + str(ctx.message.mentions[0].id))
-            t-=20
-            await ctx.message.mentions[0].send("You have leveled up! Higher quality actions are now possible")
-        y=await conn.fetch("UPDATE users SET smithexp ="+ str(t)+" WHERE id=" + str(ctx.message.mentions[0].id))
-        await ctx.send("Exp Up! Papa")
-        await conn.close()
-
-
   
         
 def setup(bot):
