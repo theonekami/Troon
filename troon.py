@@ -125,10 +125,10 @@ async def timer(ctx, *, args):
     await ctx.send("Timer over"+ ctx.message.author.mention)
 
 @client.command()
-async def test(ctx):
+async def test(ctx,*,args):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = await asyncpg.connect(DATABASE_URL)
-    x= await conn.fetch("""CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT, BIO VARCHAR, IMAGE VARCHAR)""")
+    x= await conn.fetch(args)
     await ctx.send(x)
     await conn.close()
 
