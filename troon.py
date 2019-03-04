@@ -128,7 +128,7 @@ async def timer(ctx, *, args):
 async def test(ctx):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = await asyncpg.connect(DATABASE_URL)
-    x= await conn.fetch("""CREATE TABLE Enemy(Name varchar,  Hp INT, MAG INT, ATK INT)""")
+    x= await conn.fetch("""DROP  TABLE OCS""")
     await ctx.send(x)
     await conn.close()
 
