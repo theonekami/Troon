@@ -69,7 +69,7 @@ class User_Command(commands.Cog):
             name=await self.bot.wait_for("message",timeout=120)
             await ctx.send("Is " + rew.content + " your Desired name?")
             t= await self.bot.wait_for("message",timeout=120,check=accept)
-        ex="INSERT INTO ocs(id,name, HP, MAG, ATK) VALUES("+str(ctx.message.author.id)+"'"+name+"'"+","+"0,0,0)"
+        ex="INSERT INTO ocs(id,name, HP, MAG, ATK) VALUES("+str(ctx.message.author.id)+"'"+name.content+"'"+","+"0,0,0)"
         await conn.execute(ex)
         await conn.close()
         await ctx.send("Welcome to Creata "+ name)
