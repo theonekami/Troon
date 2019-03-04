@@ -95,7 +95,7 @@ class User_Command(commands.Cog):
     async def oc_add(self, ctx):
         pass
 
-    @add.command(name="hp")
+    @oc.add.command(name="hp")
     async def oc_add_hp(self,ctx,args):
         ex="SELECT HP FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
