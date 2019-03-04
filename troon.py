@@ -41,7 +41,7 @@ def basic_check(ctx):  ##for funsies
 
 home=None 
 
-client=commands.Bot( command_prefix=('!','.', 'q ', 'Q ','Qualie '))
+client=commands.Bot( command_prefix=('!','.', 'T ', 't ','Troon '))
 
 
 
@@ -60,17 +60,17 @@ async def on_ready():
 @client.command()
 @commands.check(basic_check)
 async def hi(ctx):
-    await ctx.send("Hello Papa!!")
+    await ctx.send("It is balanced")
 
-@client.command()
-async def pick(ctx, *, args):
-    'A pick device. Uses a list so i think any number of arguments can work'
-    y = str(args)
-    x = random.choice(y.split(','))
-    await ctx.send('Umm..I Picked: ' + x)
+##@client.command()
+##async def pick(ctx, *, args):
+##    'A pick device. Uses a list so i think any number of arguments can work'
+##    y = str(args)
+##    x = random.choice(y.split(','))
+##    await ctx.send('Umm..I Picked: ' + x)
 
     
-@client.command()
+
 async def roll(ctx, *, args):
     'Rolls a dice. Formatted as  <no of dice>d<no of sides> eg. 3d10'
     y = str(args).replace(' ', '')
@@ -92,7 +92,7 @@ async def roll(ctx, *, args):
     s = str(sum(rolls))
     y = y.replace(x, s)
     res += str(eval(y))
-    await ctx.send(res)
+    return res
 
 
 
@@ -128,16 +128,10 @@ async def timer(ctx, *, args):
 async def test(ctx):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = await asyncpg.connect(DATABASE_URL)
-    x= await conn.fetch("""TRUNCATE TABLE ITEM_LIST""")
+    x= await conn.fetch("""CREATE TABLE OCS(Name varchar, Bio Varchar, Hp INT, MAG INT, ATK INT)""")
     await ctx.send(x)
     await conn.close()
 
-"""select column_name, data_type, character_maximum_length
-from INFORMATION_SCHEMA.COLUMNS where table_name = 'users'"""
-
-"""Create table users (id  bigint,money int , items varchar,smithing int, extraction int,smithexp int,excexp int)"""
-
-    
 client.run(os.environ["TOKEN"])
 
 
