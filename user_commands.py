@@ -85,7 +85,7 @@ class User_Command(commands.Cog):
         for i,j in v[0].items():
             if(not(j)):
                 continue
-             x.add_field(name=i,value=str(j), inline=False)
+            x.add_field(name=i,value=str(j), inline=False)
         await ctx.send(embed=x)
   
         
