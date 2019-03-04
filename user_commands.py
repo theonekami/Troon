@@ -91,11 +91,11 @@ class User_Command(commands.Cog):
             x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
         await ctx.send(embed=x)
 
-    @oc.group(name="add")
-    async def oc_add(self, ctx):
+    @oc.group()
+    async def add(self, ctx):
         pass
 
-    @oc.add.command(name="hp")
+    @add.command(name="hp")
     async def oc_add_hp(self,ctx,args):
         ex="SELECT HP FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
