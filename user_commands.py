@@ -105,6 +105,28 @@ class User_Command(commands.Cog):
         await conn.execute("UPDATE OCS SET HP ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
         await ctx.send("It is Done")
+
+    @add.command(name="int")
+    async def oc_add_int(self,ctx,args):
+        ex="SELECT MAG FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=v[0][0]+int(args)
+        await conn.execute("UPDATE OCS SET MAG ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")
+
+    @add.command(name="atk")
+    async def oc_add_atk(self,ctx,args):
+        ex="SELECT ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=v[0][0]+int(args)
+        await conn.execute("UPDATE OCS SET ATK ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")
         
 def setup(bot):
     bot.add_cog(User_Command(bot))
