@@ -102,7 +102,7 @@ class User_Command(commands.Cog):
         conn = await asyncpg.connect(DATABASE_URL)
         v= await conn.fetch(ex)
         t=v[0][0]+int(args)
-        await con.execute("UPDATE OCS SET HP ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id)+")")
+        await conn.execute("UPDATE OCS SET HP ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id)+")")
         await conn.close()
         await ctx.send(embed=x)
         
