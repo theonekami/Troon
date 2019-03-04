@@ -104,7 +104,7 @@ class User_Command(commands.Cog):
         t=v[0][0]+int(args)
         await conn.execute("UPDATE OCS SET HP ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
-        await ctx.send(embed=x)
+        await ctx.send("It is Done")
         
 def setup(bot):
     bot.add_cog(User_Command(bot))
