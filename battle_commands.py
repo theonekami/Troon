@@ -59,31 +59,24 @@ class entity:
         self.mag=mag
         self.atk=atk
 
-    async def accroll(self,v, x):
-        if acc<= 1:
-            x.add_field(name="ACCURACY ROLL" value=v+" Crtically fails (rolled a one or less)")
-        elif acc<=4:
-            x.add_field(name="ACCURACY ROLL" value=v+" Fails")
-        elif acc<=18:
-            x.add_field(name="ACCURACY ROLL" value=v+" Hits the target successfully")
-        else:
-            x.add_field(name="ACCURACY ROLL" value=v+" Suceeds Critically")
-        return x
-
-    
-    async def MAGIC(self,ctx):
-        x=discord.Embed(title="Results")
-        acc=roll("1d20")
-        v="The Magic Action "
-        if acc<= 1:
-            x.add_field(name="ACCURACY ROLL" value=v+" Crtically fails (rolled a one or less)")
-        elif acc<=4:
-            x.add_field(name="ACCURACY ROLL" value=v+" Fails")
-        elif acc<=18:
-            x.add_field(name="ACCURACY ROLL" value=v+" Hits the target successfully")
-        else:
-            x.add_field(name="ACCURACY ROLL" value=v+" Suceeds Critically")
-        return x
+##    async def accroll(self,v, x):
+##        acc=roll("1d20")
+##        if acc<= 1:
+##            x.add_field(name="ACCURACY ROLL", value=v+" Crtically fails (rolled a one or less)")
+##        elif acc<=4:
+##            x.add_field(name="ACCURACY ROLL", value=v+" Fails")
+##        elif acc<=18:
+##            x.add_field(name="ACCURACY ROLL", value=v+" Hits the target successfully")
+##        else:
+##            x.add_field(name="ACCURACY ROLL", value=v+" Suceeds Critically")
+##        return x,acc
+##
+##    
+##    async def MAGIC(self,ctx):
+##        x=discord.Embed(title="Results")
+##        v="The Magic Action "
+##        
+##        return x
 
     
 
