@@ -211,7 +211,7 @@ class BattleField(commands.Cog):
 
     @battle.group()
     @commands.check(start_check)
-    async def action(self, ctx):
+    async def roll(self, ctx):
         pass
 
     @roll.command(name="ATK")
