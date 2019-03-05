@@ -6,12 +6,7 @@ import asyncpg
 import os
 
 #items
-#users
-def value_in_list(ls, val): # ls: a list; val: a value
-    for test_value in ls:
-        if (test_value == val):
-            return True
-    return False
+
 
 def gadmin_ck(ctx): # Check if user is a global bot admin
     return value_in_list(bot_admin_discriminators, ctx.author.id)
@@ -33,6 +28,15 @@ def basic_check(ctx):  ##for funsies
         return False
 
 
+class entity:
+    def __init__(self, i,name,hp,mag, atk):
+        self.id=i
+        self.name=name
+        self.hp=hp
+        self.mag=mag
+        self.atk=atk
+
+    
 
 
 """CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT, BIO VARCHAR, IMAGE VARCHAR)"""
@@ -42,8 +46,8 @@ class BattleField(commands.Cog):
     def __init__(self, bot):
         self.bot=bot
         self.start=True
-        self.players=dict()
-        self.enemies=dict()
+        self.players=[]
+        self.enemies=[]
 
     def start_check(self,ctx):
         return self.start
@@ -64,26 +68,24 @@ class BattleField(commands.Cog):
     @battle.command(name="join")
     @commands.check(start_check)
     async def b_join(self,ctx):
-        ex="SELECT NAME, HP FROM OCS WHERE ID ="+ctx.message.author.id
+        ex="SELECT ID, NAME, HP,MAG,INT FROM OCS WHERE ID ="+ctx.message.author.id
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v=conn.fetch(ex)
+        t=v[0]
         await conn.close()
-        if(v[0][0] in self.players):
-            await ctx.message.author.send("You have already joined this battle")
-            return
-        self.players[v[0][0]]="["+str(v[0][1])+"]"
-        await ctx.send(v[0][0]+"Has Joined the battle!!")
+        self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
+        await ctx.send(v[0][1]+"Has Joined the battle!!")
 
     @battle.command(name="show")
-    @commands.check(start_check)
     async def b_show(self,ctx):
         x=discord.Embed(title="BATTLEGROUND")
-        for i,j in players.items():
-            x.add_field(name=i, value=j, inline=True)
+        for i in self.players:
+            x.add_field(name=i.name, value="["+i.hp+"]", inline=True)            
         x.add_field(name="\nVS\n")
-        for i,j in enemies.items():
-            x.add_field(name=i, value=j, inline=True)
+        for i in self.enemies:
+            x.add_field(name=i.name, value="["+i.hp+"]", inline=True)         
+        await ctx.send(embed=x)
 
 def setup(bot):
     bot.add_cog(BattleField(bot))
