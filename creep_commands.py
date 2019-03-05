@@ -100,7 +100,7 @@ class Creep_command(commands.Cog):
 
     @creep.command(name="show")
     async def creep_show(self, ctx,args):
-        ex="SELECT * FROM CREEPS WHERE( name= "+str(args).strip()+")"
+        ex="SELECT * FROM CREEPS WHERE( name= '"+str(args).strip()+"')"
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v= await conn.fetch(ex)
