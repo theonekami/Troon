@@ -41,13 +41,10 @@ async def dice(args):
     rolls = list()
     for i in range(no):
         rolls.append(random.randint(1, limit))
-    res = 'Roll(s):'
-    for i in rolls:
-        res += ' ' + str(i)
-    res += ' || Sum='
+
     s = str(sum(rolls))
     y = y.replace(x, s)
-    res += str(eval(y))
+
     return int(res)
 
 
@@ -60,7 +57,7 @@ class entity:
         self.atk=atk
 
     async def accroll(self,v, x):
-        acc=roll("1d20")
+        acc=dice("1d20")
         if acc<= 1:
             x.add_field(name="ACCURACY ROLL", value=v+" Crtically fails (rolled a one or less)")
         elif acc<=4:
@@ -88,7 +85,7 @@ class entity:
             rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)
         else:
             rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)+"*1.5"
-        rol=roll(rol)
+        rol=dice(rol)
         x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" INT dmg")
         return x
 
@@ -102,7 +99,7 @@ class entity:
             rol="1d"+str(self.atk//2+1)+"+"+str(self.atk//2+1)
         else:
             rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)+"*1.5"
-        rol=roll(rol)
+        rol=dice(rol)
         x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" ATK dmg")
         return x
 
@@ -140,7 +137,7 @@ class BattleField(commands.Cog):
     async def start(self,ctx):
         global start
         start=True
-        x=roll("1d2")
+        x=dice("1d2")
         if(x==1):
             self.turn="ALL!!!"
         else:
@@ -217,7 +214,7 @@ class BattleField(commands.Cog):
     async def action(self, ctx):
         pass
 
-    @action.command(name="ATK")
+    @roll.command(name="ATK")
     async def b_roll_atk(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
@@ -233,7 +230,7 @@ class BattleField(commands.Cog):
                     await ctx.message.author.send("Enemy not in the battle.")
             
 
-    @action.command(name="MAG")
+    @roll.command(name="MAG")
     async def b_roll_atk(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
@@ -248,7 +245,7 @@ class BattleField(commands.Cog):
                 else:
                     await ctx.message.author.send("Enemy not in the battle.")
             
-    @action.command(name="effect")
+    @roll.command(name="effect")
     async def b_roll_atk(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
