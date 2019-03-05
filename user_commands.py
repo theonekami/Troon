@@ -104,7 +104,7 @@ class User_Command(commands.Cog):
         pass
 
     @add.command(name="hp")
-    @command.check(basic_check)
+    @commands.check(basic_check)
     async def oc_add_hp(self,ctx,args):
         ex="SELECT HP FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -116,7 +116,7 @@ class User_Command(commands.Cog):
         await ctx.send("It is Done")
 
     @add.command(name="int")
-    @command.check(basic_check)
+    @commands.check(basic_check)
     async def oc_add_int(self,ctx,args):
         ex="SELECT MAG FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -128,7 +128,7 @@ class User_Command(commands.Cog):
         await ctx.send("It is Done")
 
     @add.command(name="atk")
-    @command.check(basic_check)
+    @commands.check(basic_check)
     async def oc_add_atk(self,ctx,args):
         ex="SELECT ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']

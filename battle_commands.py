@@ -62,7 +62,7 @@ class BattleField(commands.Cog):
         self.start=False
 
     @battle.command(name="join")
-    @command.check(start_check)
+    @commands.check(start_check)
     async def b_join(self,ctx):
         ex="SELECT NAME, HP FROM OCS WHERE ID ="+ctx.message.author.id
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -76,7 +76,7 @@ class BattleField(commands.Cog):
         await ctx.send(v[0][0]+"Has Joined the battle!!")
 
     @battle.command(name="show")
-    @command.check(start_check)
+    @commands.check(start_check)
     async def b_show(self,ctx):
         x=discord.Embed(title="BATTLEGROUND")
         for i,j in players.items():
