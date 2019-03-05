@@ -44,7 +44,8 @@ class entity:
 def start_check(ctx):
     return start
 
-global start=False
+global start
+start=False
 
 
 
