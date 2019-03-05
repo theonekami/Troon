@@ -59,24 +59,52 @@ class entity:
         self.mag=mag
         self.atk=atk
 
-##    async def accroll(self,v, x):
-##        acc=roll("1d20")
-##        if acc<= 1:
-##            x.add_field(name="ACCURACY ROLL", value=v+" Crtically fails (rolled a one or less)")
-##        elif acc<=4:
-##            x.add_field(name="ACCURACY ROLL", value=v+" Fails")
-##        elif acc<=18:
-##            x.add_field(name="ACCURACY ROLL", value=v+" Hits the target successfully")
-##        else:
-##            x.add_field(name="ACCURACY ROLL", value=v+" Suceeds Critically")
-##        return x,acc
-##
-##    
-##    async def MAGIC(self,ctx):
-##        x=discord.Embed(title="Results")
-##        v="The Magic Action "
-##        
-##        return x
+    async def accroll(self,v, x):
+        acc=roll("1d20")
+        if acc<= 1:
+            x.add_field(name="ACCURACY ROLL", value=v+" Crtically fails (rolled a one or less)")
+        elif acc<=4:
+            x.add_field(name="ACCURACY ROLL", value=v+" Fails")
+        elif acc<=18:
+            x.add_field(name="ACCURACY ROLL", value=v+" Hits the target(s) successfully")
+        else:
+            x.add_field(name="ACCURACY ROLL", value=v+" Suceeds Critically")
+        return x,acc
+
+    
+    async def Effect(self,ctx):
+        x=discord.Embed(title="Results")
+        v="The Effect"
+        x,r=accroll(v,x)
+        return x
+
+    async def Magic(self,ctx):
+        x=discord.Embed(title="Results")
+        v="The Effect"
+        x,r=accroll(v,x)
+        if r<=4:
+            return x
+        elif r<=18:
+            rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)
+        else:
+            rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+!)+"*1.5"
+        rol=roll(rol)
+        x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" INT dmg")
+        return x
+
+    async def Attack(self,ctx):
+        x=discord.Embed(title="Results")
+        v="The Effect"
+        x,r=accroll(v,x)
+        if r<=4:
+            return x
+        elif r<=18:
+            rol="1d"+str(self.atk//2+1)+"+"+str(self.atk//2+1)
+        else:
+            rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+!)+"*1.5"
+        rol=roll(rol)
+        x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" ATK dmg")
+        return x
 
     
 
@@ -133,13 +161,13 @@ class BattleField(commands.Cog):
     @battle.command(name="enemy")
     @commands.check(start_check)
     async def b_enemy(self,ctx,*,args):
-        ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ="+args
+        ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ='"+args+"'"
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v=await conn.fetch(ex)
         t=v[0]
         await conn.close()
-        self.players.append(entity(-1,t[0],t[1],t[2],t[3]))
+        self.enemies.append(entity(-1,t[0],t[1],t[2],t[3]))
         await ctx.send(v[0][1]+" Has Joined the battle!!")
 
     @battle.command(name="show")
