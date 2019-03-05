@@ -41,16 +41,18 @@ class entity:
 
 """CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT, BIO VARCHAR, IMAGE VARCHAR)"""
 
+def start_check(ctx):
+    return start
+
+start=True
 
 class BattleField(commands.Cog):
     def __init__(self, bot):
         self.bot=bot
-        self.start=True
+
         self.players=[]
         self.enemies=[]
 
-    def start_check(ctx):
-        return self.start
 
     @commands.group()
     async def battle(self,ctx):
