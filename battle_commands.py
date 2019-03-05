@@ -27,7 +27,7 @@ def basic_check(ctx):  ##for funsies
     else:
         return False
 
-async def dice(args):
+def dice(args):
     'Rolls a dice. Formatted as  <no of dice>d<no of sides> eg. 3d10'
     y = str(args).replace(' ', '')
     x = ''
