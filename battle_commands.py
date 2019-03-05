@@ -4,6 +4,7 @@ import json
 import aiohttp
 import asyncpg
 import os
+import random
 
 #items
 
