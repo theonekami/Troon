@@ -75,7 +75,7 @@ class BattleField(commands.Cog):
         ex="SELECT ID, NAME, HP,MAG,INT FROM OCS WHERE ID ="+str(ctx.message.author.id)
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
-        v=conn.fetch(ex)
+        v=await conn.fetch(ex)
         t=v[0]
         await conn.close()
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
