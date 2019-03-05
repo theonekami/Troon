@@ -53,17 +53,17 @@ class BattleField(commands.Cog):
         pass
         
     
-    @battle.command()
+    @battle.command(name="start")
     async def start(self,ctx):
         self.start=True
 
-    @battle.command()
+    @battle.command(name="end")
     async def end(self,ctx):
         self.start=False
 
-    @battle.command()
+    @battle.command(name="join")
     @command.check(start_check)
-    async def join(self,ctx):
+    async def b_join(self,ctx):
         ex="SELECT NAME, HP FROM OCS WHERE ID ="+ctx.message.author.id
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
@@ -75,9 +75,9 @@ class BattleField(commands.Cog):
         self.players[v[0][0]]="["+str(v[0][1])+"]"
         await ctx.send(v[0][0]+"Has Joined the battle!!")
 
-    @battle.command()
+    @battle.command(name="show")
     @command.check(start_check)
-    async def show(self,ctx):
+    async def b_show(self,ctx):
         x=discord.Embed(title="BATTLEGROUND")
         for i,j in players.items():
             x.add_field(name=i, value=j, inline=True)
