@@ -44,7 +44,9 @@ class entity:
 def start_check(ctx):
     return start
 
-start=False
+global start=False
+
+
 
 class BattleField(commands.Cog):
     def __init__(self, bot):
