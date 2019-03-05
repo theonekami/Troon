@@ -72,7 +72,7 @@ class BattleField(commands.Cog):
     @battle.command(name="join")
     @commands.check(start_check)
     async def b_join(self,ctx):
-        ex="SELECT ID, NAME, HP,MAG,INT FROM OCS WHERE ID ="+ctx.message.author.id
+        ex="SELECT ID, NAME, HP,MAG,INT FROM OCS WHERE ID ="+str(ctx.message.author.id)
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v=conn.fetch(ex)
