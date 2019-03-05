@@ -60,10 +60,12 @@ class BattleField(commands.Cog):
     @battle.command(name="start")
     async def start(self,ctx):
         self.start=True
+        await ctx.send("The Battle has begun. Use ``t battle join`` to join")
 
     @battle.command(name="end")
     async def end(self,ctx):
         self.start=False
+        await ctx.send("The Battle has Ended.")
 
     @battle.command(name="join")
     @commands.check(start_check)
