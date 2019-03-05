@@ -69,7 +69,7 @@ class User_Command(commands.Cog):
         name=await self.bot.wait_for("message",timeout=120,check=person)
         await ctx.send("Is " + name.content + " your Desired name?")
         t= await self.bot.wait_for("message",timeout=120,check=accept)
-        while(t.content.lower()=="n" or t.content.lower()=="NO"):
+        while(t.content.lower()=="n" or t.content.lower()=="no"):
             await ctx.send("What is your name child?")
             name=await self.bot.wait_for("message",timeout=120)
             await ctx.send("Is " + name.content + " your Desired name?")
