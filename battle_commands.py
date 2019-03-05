@@ -27,7 +27,7 @@ def basic_check(ctx):  ##for funsies
     else:
         return False
 
-async def roll(args):
+async def dice(args):
     'Rolls a dice. Formatted as  <no of dice>d<no of sides> eg. 3d10'
     y = str(args).replace(' ', '')
     x = ''
@@ -214,10 +214,10 @@ class BattleField(commands.Cog):
 
     @battle.group()
     @commands.check(start_check)
-    async def roll(self, ctx):
+    async def action(self, ctx):
         pass
 
-    @roll.command(name="ATK")
+    @action.command(name="ATK")
     async def b_roll_atk(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
@@ -233,7 +233,7 @@ class BattleField(commands.Cog):
                     await ctx.message.author.send("Enemy not in the battle.")
             
 
-    @roll.command(name="MAG")
+    @action.command(name="MAG")
     async def b_roll_atk(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
@@ -248,7 +248,7 @@ class BattleField(commands.Cog):
                 else:
                     await ctx.message.author.send("Enemy not in the battle.")
             
-    @roll.command(name="effect")
+    @action.command(name="effect")
     async def b_roll_atk(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
