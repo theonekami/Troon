@@ -203,7 +203,7 @@ class BattleField(commands.Cog):
     @battle.command(name="toggle")
     @commands.check(start_check)
     async def b_toggle(self,ctx):
-        if(self.turn="ENEMY!!!"):
+        if(self.turn=="ENEMY!!!"):
             self.turn="ALL!!!"
         else:
             self.turn="ENEMY!!!"
