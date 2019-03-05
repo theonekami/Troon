@@ -44,7 +44,7 @@ class entity:
 def start_check(ctx):
     return start
 
-start=True
+start=False
 
 class BattleField(commands.Cog):
     def __init__(self, bot):
@@ -87,7 +87,7 @@ class BattleField(commands.Cog):
         x=discord.Embed(title="BATTLEGROUND")
         for i in self.players:
             x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)            
-        x.add_field(name="\nVS\n")
+        x.add_field(name="\nVS", value="---------------------------",inline=False)
         for i in self.enemies:
             x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)         
         await ctx.send(embed=x)
