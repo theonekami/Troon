@@ -79,17 +79,17 @@ class BattleField(commands.Cog):
         t=v[0]
         await conn.close()
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
-        await ctx.send(v[0][1]+"Has Joined the battle!!")
+        await ctx.send(v[0][1]+" Has Joined the battle!!")
 
     @battle.command(name="show")
     @commands.check(start_check)
     async def b_show(self,ctx):
         x=discord.Embed(title="BATTLEGROUND")
         for i in self.players:
-            x.add_field(name=i.name, value="["+i.hp+"]", inline=True)            
+            x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)            
         x.add_field(name="\nVS\n")
         for i in self.enemies:
-            x.add_field(name=i.name, value="["+i.hp+"]", inline=True)         
+            x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)         
         await ctx.send(embed=x)
 
 def setup(bot):
