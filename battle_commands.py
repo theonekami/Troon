@@ -225,7 +225,7 @@ class BattleField(commands.Cog):
                     await ctx.message.author.send("You are not in the battle.")
         else:
             for i in enemy:
-                if(i.id==ctx.message.author.id):
+                if(i.name==args):
                     await ctx.send(embed=i.Attack(ctx))
                 else:
                     await ctx.message.author.send("Enemy not in the battle.")
