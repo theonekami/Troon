@@ -84,6 +84,7 @@ class Creep_command(commands.Cog):
             await ctx.send("Stats?")
             stats=await self.bot.wait_for("message",timeout=120,check=person)
             stats=stats.content.split("|")
+            t= await self.bot.wait_for("message",timeout=120,check=accept)
             
         y=await conn.fetch("SELECT * FROM CREEPS WHERE NAME='" +name.content.strip()+"'")
         if(y):
@@ -91,9 +92,8 @@ class Creep_command(commands.Cog):
             await conn.close()
             return
         
-        ex="INSERT INTO creeps(name, disc,HP, MAG, ATK) VALUES('"+name.content.strip().replace("'","\\'")+"'"+",'"+disc.content.replace("'","\'")+"',"+str(stats[0]) +","+str(stats[1]) +","+str(stats[2])+")"
+        ex="INSERT INTO creeps(name, disc,HP, MAG, ATK) VALUES('"+name.content.strip().replace("'","''")+"'"+",'"+disc.content.replace("'","\'")+"',"+str(stats[0]) +","+str(stats[1]) +","+str(stats[2])+")"
         await ctx.send(ex)
-        await ctx.send(disc.content.replace("'","\'"))
         await conn.execute(ex)
         await conn.close()
         await ctx.send(name.content+ "Has been added as a creep")
