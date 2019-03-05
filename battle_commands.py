@@ -124,7 +124,9 @@ class BattleField(commands.Cog):
         self.bot=bot
 
         self.players=[]
+        self.pl_no=0
         self.enemies=[]
+        self.en_no=0
 
 
     @commands.group()
@@ -144,6 +146,10 @@ class BattleField(commands.Cog):
     async def end(self,ctx):
         global start
         start =False
+        self.players=[]
+        self.pl_no=0
+        self.enemies=[]
+        self.en_no=0
         await ctx.send("The Battle has Ended.")
 
     @battle.command(name="join")
@@ -153,22 +159,28 @@ class BattleField(commands.Cog):
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v=await conn.fetch(ex)
-        t=v[0]
         await conn.close()
+        t=v[0]
+        self.pl_no+=1
+        for i in self.players:
+            if i.id==t[0]:
+                ctx.message.author.send("You are already a part of this battle")
+                return
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
         await ctx.send(v[0][1]+" Has Joined the battle!!")
 
-    @battle.command(name="enemy")
+    @battle.command(name="creep")
     @commands.check(start_check)
-    async def b_enemy(self,ctx,*,args):
+    async def b_creep(self,ctx,*,args):
         ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ='"+args+"'"
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v=await conn.fetch(ex)
         t=v[0]
+        self.en_no+=1
         await conn.close()
-        self.enemies.append(entity(-1,t[0],t[1],t[2],t[3]))
-        await ctx.send(v[0][1]+" Has Joined the battle!!")
+        self.enemies.append(entity(-1,str(self.en_no)+" "+t[0],t[1],t[2],t[3]))
+        await ctx.send(v[0][0]+" Has Joined the battle!!")
 
     @battle.command(name="show")
     @commands.check(start_check)
