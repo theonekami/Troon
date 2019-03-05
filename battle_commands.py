@@ -46,7 +46,7 @@ def dice(args):
     s = str(sum(rolls))
     y = y.replace(x, s)
 
-    return int(res)
+    return int(eval(y))
 
 
 class entity:
