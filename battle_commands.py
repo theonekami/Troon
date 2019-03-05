@@ -101,7 +101,7 @@ class entity:
         elif r<=18:
             rol="1d"+str(self.atk//2+1)+"+"+str(self.atk//2+1)
         else:
-            rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+!)+"*1.5"
+            rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)+"*1.5"
         rol=roll(rol)
         x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" ATK dmg")
         return x
