@@ -33,10 +33,13 @@ def basic_check(ctx):  ##for funsies
     else:
         return False
 
+def person(a):
+    return a.author=ctx.author
+
 def accept(a):
     a=a.content.lower()
     y=["y","yes","n","no"]
-    return a in y
+    return (a in y and person(a))
 
 
 """CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT, BIO VARCHAR, IMAGE VARCHAR)"""
@@ -61,9 +64,11 @@ class User_Command(commands.Cog):
             await conn.close()
             return
         await ctx.send("What is your name child?")
-        name=await self.bot.wait_for("message",timeout=120)
+        p=person
+        a=accept
+        name=await self.bot.wait_for("message",timeout=120,check=p)
         await ctx.send("Is " + name.content + " your Desired name?")
-        t= await self.bot.wait_for("message",timeout=120,check=accept)
+        t= await self.bot.wait_for("message",timeout=120,check=a)
         while(t.content.lower()=="n" or t.content.lower()=="NO"):
             await ctx.send("What is your name child?")
             name=await self.bot.wait_for("message",timeout=120)
