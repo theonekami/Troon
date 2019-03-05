@@ -98,7 +98,6 @@ async def roll(ctx, *, args):
 
 
 
-@client.command() 
 async def calc(ctx, *, args):  
     'Calcs a given expression, someone needs to see how far this goes tho'
     try:            
@@ -116,7 +115,6 @@ async def rtfm(ctx):
 
 
 
-@client.command()
 async def timer(ctx, *, args):
     await ctx.send("Setting timer for " + str(args)+ " min(s)")
     if( not (args.isnumeric())):
@@ -126,7 +124,7 @@ async def timer(ctx, *, args):
     await ctx.send("Timer over"+ ctx.message.author.mention)
 
 @client.command()
-async def test(ctx,*,args):
+async def exec(ctx,*,args):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = await asyncpg.connect(DATABASE_URL)
     x= await conn.fetch(args)
