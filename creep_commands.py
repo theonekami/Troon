@@ -110,6 +110,9 @@ class Creep_command(commands.Cog):
             if(i=="name" and j):
                 x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
                 continue
+            if(i=="disc" and j):
+                x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
+                continue
             x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
         await ctx.send(embed=x)
 

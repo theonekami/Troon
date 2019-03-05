@@ -27,6 +27,29 @@ def basic_check(ctx):  ##for funsies
     else:
         return False
 
+async def roll(args):
+    'Rolls a dice. Formatted as  <no of dice>d<no of sides> eg. 3d10'
+    y = str(args).replace(' ', '')
+    x = ''
+    for i in y:
+        if i in ('+', '-', '*', '/'):
+            break
+        x += i
+    z = x.split('d')
+    no = int(z[0])
+    limit = int(z[1])
+    rolls = list()
+    for i in range(no):
+        rolls.append(random.randint(1, limit))
+    res = 'Roll(s):'
+    for i in rolls:
+        res += ' ' + str(i)
+    res += ' || Sum='
+    s = str(sum(rolls))
+    y = y.replace(x, s)
+    res += str(eval(y))
+    return int(res)
+
 
 class entity:
     def __init__(self, i,name,hp,mag, atk):
@@ -35,6 +58,32 @@ class entity:
         self.hp=hp
         self.mag=mag
         self.atk=atk
+
+    async def accroll(self,v, x):
+        if acc<= 1:
+            x.add_field(name="ACCURACY ROLL" value=v+" Crtically fails (rolled a one or less)")
+        elif acc<=4:
+            x.add_field(name="ACCURACY ROLL" value=v+" Fails")
+        elif acc<=18:
+            x.add_field(name="ACCURACY ROLL" value=v+" Hits the target successfully")
+        else:
+            x.add_field(name="ACCURACY ROLL" value=v+" Suceeds Critically")
+        return x
+
+    
+    async def MAGIC(self,ctx):
+        x=discord.Embed(title="Results")
+        acc=roll("1d20")
+        v="The Magic Action "
+        if acc<= 1:
+            x.add_field(name="ACCURACY ROLL" value=v+" Crtically fails (rolled a one or less)")
+        elif acc<=4:
+            x.add_field(name="ACCURACY ROLL" value=v+" Fails")
+        elif acc<=18:
+            x.add_field(name="ACCURACY ROLL" value=v+" Hits the target successfully")
+        else:
+            x.add_field(name="ACCURACY ROLL" value=v+" Suceeds Critically")
+        return x
 
     
 
