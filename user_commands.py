@@ -93,6 +93,9 @@ class User_Command(commands.Cog):
             elif(i=="image" and j ):
                 x.set_img(url=i)
                 continue
+            elif(i=="name" and j):
+                x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
+                continue
             x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
         await ctx.send(embed=x)
 
@@ -101,6 +104,7 @@ class User_Command(commands.Cog):
         pass
 
     @add.command(name="hp")
+    @command.check(basic_check)
     async def oc_add_hp(self,ctx,args):
         ex="SELECT HP FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -112,6 +116,7 @@ class User_Command(commands.Cog):
         await ctx.send("It is Done")
 
     @add.command(name="int")
+    @command.check(basic_check)
     async def oc_add_int(self,ctx,args):
         ex="SELECT MAG FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -123,6 +128,7 @@ class User_Command(commands.Cog):
         await ctx.send("It is Done")
 
     @add.command(name="atk")
+    @command.check(basic_check)
     async def oc_add_atk(self,ctx,args):
         ex="SELECT ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -132,6 +138,7 @@ class User_Command(commands.Cog):
         await conn.execute("UPDATE OCS SET ATK ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
         await ctx.send("It is Done")
-        
+
+
 def setup(bot):
     bot.add_cog(User_Command(bot))

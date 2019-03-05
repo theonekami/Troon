@@ -124,6 +124,7 @@ async def timer(ctx, *, args):
     await ctx.send("Timer over"+ ctx.message.author.mention)
 
 @client.command()
+@command.check(basic_check)
 async def exec(ctx,*,args):
     DATABASE_URL = os.environ['DATABASE_URL']
     conn = await asyncpg.connect(DATABASE_URL)
