@@ -217,7 +217,7 @@ class BattleField(commands.Cog):
 
     @roll.command(name="ATK")
     async def b_roll_atk(self, ctx,*,args=None):
-        if not(kami_check()):
+        if not(Kami_check()):
             for i in players:
                 if(i.id==ctx.message.author.id):
                     await ctx.send(embed=i.Attack(ctx))
