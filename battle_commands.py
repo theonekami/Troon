@@ -177,6 +177,7 @@ class BattleField(commands.Cog):
 
     @battle.command(name="creep")
     @commands.check(start_check)
+    @commands.check(basic_check)
     async def b_creep(self,ctx,*,args):
         ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ='"+args+"'"
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -185,7 +186,7 @@ class BattleField(commands.Cog):
         t=v[0]
         self.en_no+=1
         await conn.close()
-        self.enemies.append(entity(-1,str(self.en_no)+" "+t[0],t[1],t[2],t[3]))
+        self.enemies.append(entity(-1,t[0]+str(self.en_no),t[1],t[2],t[3]))
         await ctx.send(v[0][0]+" Has Joined the battle!!")
 
     @battle.command(name="show")
@@ -202,8 +203,8 @@ class BattleField(commands.Cog):
 
     @battle.command(name="switch")
     @commands.check(start_check)
+    @commands.check(basic_check)
     async def b_toggle(self,ctx):
-
         if(self.turn=="ENEMY!!!"):
             self.turn="ALL!!!"
         else:
@@ -211,10 +212,58 @@ class BattleField(commands.Cog):
         x=discord.Embed(title=self.turn)
         await ctx.send(embed=x)
         self.b_show(ctx)
-    
 
-    
+    @battle.group()
+    @commands.check(start_check)
+    async def roll(self, ctx):
+        pass
 
+    @roll.command(name="ATK")
+    async def b_roll_atk(self, ctx,*,args=None):
+        if not(kami_check()):
+            for i in players:
+                if(i.id==ctx.message.author.id):
+                    await ctx.send(embed=i.Attack(ctx))
+                else:
+                    await ctx.message.author.send("You are not in the battle.")
+        else:
+            for i in enemy:
+                if(i.id==ctx.message.author.id):
+                    await ctx.send(embed=i.Attack(ctx))
+                else:
+                    await ctx.message.author.send("Enemy not in the battle.")
+            
+
+    @roll.command(name="MAG")
+    async def b_roll_atk(self, ctx,*,args=None):
+        if not(kami_check()):
+            for i in players:
+                if(i.id==ctx.message.author.id):
+                    await ctx.send(embed=i.Magic(ctx))
+                else:
+                    await ctx.message.author.send("You are not in the battle.")
+        else:
+            for i in enemy:
+                if(i.id==ctx.message.author.id):
+                    await ctx.send(embed=i.Magic(ctx))
+                else:
+                    await ctx.message.author.send("Enemy not in the battle.")
+            
+    @roll.command(name="effect")
+    async def b_roll_atk(self, ctx,*,args=None):
+        if not(kami_check()):
+            for i in players:
+                if(i.id==ctx.message.author.id):
+                    await ctx.send(embed=i.Effect(ctx))
+                else:
+                    await ctx.message.author.send("You are not in the battle.")
+        else:
+            for i in enemy:
+                if(i.id==ctx.message.author.id):
+                    await ctx.send(embed=i.Effect(ctx))
+                else:
+                    await ctx.message.author.send("Enemy not in the battle.")
+            
 
 
 def setup(bot):
