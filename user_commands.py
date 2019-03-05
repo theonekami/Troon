@@ -34,7 +34,7 @@ def basic_check(ctx):  ##for funsies
         return False
 
 def person(a):
-    return a.author=ctx.author
+    return a.author==ctx.author
 
 def accept(a):
     a=a.content.lower()
