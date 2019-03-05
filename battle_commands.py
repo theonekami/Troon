@@ -127,6 +127,7 @@ class BattleField(commands.Cog):
         self.pl_no=0
         self.enemies=[]
         self.en_no=0
+        self.turn=""
 
 
     @commands.group()
@@ -139,6 +140,11 @@ class BattleField(commands.Cog):
     async def start(self,ctx):
         global start
         start=True
+        x=roll("1d2")
+        if(x==1):
+            self.turn="ALL!!!"
+        else:
+            self.turn="ENEMY!!!"
         await ctx.send("The Battle has begun. Use ``t battle join`` to join")
 
     @battle.command(name="end")
@@ -164,7 +170,7 @@ class BattleField(commands.Cog):
         self.pl_no+=1
         for i in self.players:
             if i.id==t[0]:
-                ctx.message.author.send("You are already a part of this battle")
+                await ctx.message.author.send("You are already a part of this battle")
                 return
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
         await ctx.send(v[0][1]+" Has Joined the battle!!")
@@ -190,8 +196,22 @@ class BattleField(commands.Cog):
             x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)            
         x.add_field(name="\nVS", value="---------------------------",inline=False)
         for i in self.enemies:
-            x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)         
+            x.add_field(name=i.name, value="["+str(i.hp)+"]", inline=True)
+        x.add_field(name="Turn", value=self.turn,inline=False)
         await ctx.send(embed=x)
+
+    @battle.command(name="toggle")
+    @commands.check(start_check)
+    async def b_toggle(self,ctx):
+        if(self.turn="ENEMY!!!"):
+            self.turn="ALL!!!"
+        else:
+            self.turn="ENEMY!!!"
+        await ctx.send(embed=x)
+        self.b_show(ctx)
+    
+
+    
 
 
 
