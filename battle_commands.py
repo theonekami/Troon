@@ -232,7 +232,7 @@ class BattleField(commands.Cog):
             
 
     @roll.command(name="MAG")
-    async def b_roll_atk(self, ctx,*,args=None):
+    async def b_roll_maj(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
                 if(i.id==ctx.message.author.id):
@@ -247,7 +247,7 @@ class BattleField(commands.Cog):
                     await ctx.message.author.send("Enemy not in the battle.")
             
     @roll.command(name="effect")
-    async def b_roll_atk(self, ctx,*,args=None):
+    async def b_roll_effect(self, ctx,*,args=None):
         if not(kami_check()):
             for i in players:
                 if(i.id==ctx.message.author.id):
