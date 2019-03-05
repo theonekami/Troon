@@ -200,13 +200,15 @@ class BattleField(commands.Cog):
         x.add_field(name="Turn", value=self.turn,inline=False)
         await ctx.send(embed=x)
 
-    @battle.command(name="toggle")
+    @battle.command(name="switch")
     @commands.check(start_check)
     async def b_toggle(self,ctx):
+
         if(self.turn=="ENEMY!!!"):
             self.turn="ALL!!!"
         else:
             self.turn="ENEMY!!!"
+        x=discord.Embed(title=self.turn)
         await ctx.send(embed=x)
         self.b_show(ctx)
     
