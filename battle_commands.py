@@ -211,7 +211,6 @@ class BattleField(commands.Cog):
             self.turn="ENEMY!!!"
         x=discord.Embed(title=self.turn)
         await ctx.send(embed=x)
-        self.b_show(ctx)
 
     @battle.group()
     @commands.check(start_check)
