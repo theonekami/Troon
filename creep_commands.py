@@ -154,4 +154,4 @@ class Creep_command(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(User_Command(bot))
+    bot.add_cog(Crepp_command(bot))
