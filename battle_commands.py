@@ -59,7 +59,7 @@ class entity:
         self.accmod=0
 
     async def accroll(self,v, x):
-        acc=dice("1d20"+self.accmod)
+        acc=dice("1d20"+str(self.accmod))
         if acc<= 1:
             x.add_field(name="ACCURACY ROLL", value=v+" Crtically fails (rolled a one or less)")
         elif acc<=4:
