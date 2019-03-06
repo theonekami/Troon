@@ -228,7 +228,7 @@ class BattleField(commands.Cog):
         else:
             p=args.split(",")
             for i in self.enemies:
-                if (i.name==p[1]]:
+                if (i.name==p[1]):
                     i.hp+=int(args.replace(",",""))
 
 
