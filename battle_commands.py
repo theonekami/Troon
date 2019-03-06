@@ -56,9 +56,10 @@ class entity:
         self.hp=hp
         self.mag=mag
         self.atk=atk
+        self.accmod=0
 
     async def accroll(self,v, x):
-        acc=dice("1d20")
+        acc=dice("1d20"+self.accmod)
         if acc<= 1:
             x.add_field(name="ACCURACY ROLL", value=v+" Crtically fails (rolled a one or less)")
         elif acc<=4:
@@ -174,19 +175,6 @@ class BattleField(commands.Cog):
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
         await ctx.send(v[0][1]+" Has Joined the battle!!")
 
-    @battle.command(name="creep")
-    @commands.check(start_check)
-    @commands.check(basic_check)
-    async def b_creep(self,ctx,*,args):
-        ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ='"+args+"'"
-        DATABASE_URL = os.environ['DATABASE_URL']
-        conn = await asyncpg.connect(DATABASE_URL)
-        v=await conn.fetch(ex)
-        t=v[0]
-        self.en_no+=1
-        await conn.close()
-        self.enemies.append(entity(-1,t[0]+str(self.en_no),t[1],t[2],t[3]))
-        await ctx.send(v[0][0]+" Has Joined the battle!!")
 
     @battle.command(name="show")
     @commands.check(start_check)
@@ -210,6 +198,39 @@ class BattleField(commands.Cog):
             self.turn="ENEMY!!!"
         x=discord.Embed(title=self.turn)
         await ctx.send(embed=x)
+
+    @battle.group()
+    @commands.check(start_check)
+    @commands.check(basic_check)
+    async def add(self, ctx):
+        pass
+
+    @add.command(name="creep")
+    async def b_add_creep(self,ctx,*,args):
+        ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ='"+args+"'"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v=await conn.fetch(ex)
+        t=v[0]
+        self.en_no+=1
+        await conn.close()
+        self.enemies.append(entity(-1,t[0]+str(self.en_no),t[1],t[2],t[3]))
+        await ctx.send(v[0][0]+" Has Joined the battle!!")
+
+
+    @add.command(name="hp")
+    async def b_add_hp(self, ctx, *, args):
+        if len(ctx.mentions):
+            p=ctx.mentions[0]
+            for i in self.players:
+                if (i.id==p.id):
+                    i.hp+=int(args.replace(",",""))
+        else:
+            p=args.split(",")
+            for i in self.enemies:
+                if (i.name==p[1]]:
+                    i.hp+=int(args.replace(",",""))
+
 
     @battle.group()
     @commands.check(start_check)
@@ -248,8 +269,8 @@ class BattleField(commands.Cog):
         for i in self.enemies:
             if(i.name==args):
                 await ctx.send(embed=await i.Magic(ctx))
-            else:
-                await ctx.message.author.send("Enemy not in the battle.")
+                return
+        await ctx.message.author.send("Enemy not in the battle.")
             
     @roll.command(name="effect")
     @commands.check(basic_check)
@@ -257,8 +278,8 @@ class BattleField(commands.Cog):
         for i in self.players:
             if(i.id==ctx.message.author.id):
                 await ctx.send(embed=await i.Effect(ctx))
-            else:
-                await ctx.message.author.send("You are not in the battle.")
+                return
+        await ctx.message.author.send("Enemy not in the battle.")
 
     @roll.command(name="effecte")
     @commands.check(basic_check)
@@ -266,9 +287,10 @@ class BattleField(commands.Cog):
         for i in self.enemies:
             if(i.name==args):
                 await ctx.send(embed=await i.Effect(ctx))
-            else:
-                await ctx.message.author.send("Enemy not in the battle.")
+                return
+        await ctx.message.author.send("Enemy not in the battle.")
             
+
 
    
 
