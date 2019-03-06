@@ -106,7 +106,7 @@ class Creep_command(commands.Cog):
         await conn.close()
         x= discord.Embed(title="Info")
         for i,j in v[0].items():
-            elif(i=="name" and j):
+            if(i=="name" and j):
                 x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
                 continue
             x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
