@@ -73,13 +73,13 @@ class entity:
     async def Effect(self,ctx):
         x=discord.Embed(title="Results")
         v="The Effect"
-        x,r=accroll(v,x)
+        x,r=await self.accroll(v,x)
         return x
 
     async def Magic(self,ctx):
         x=discord.Embed(title="Results")
         v="The Effect"
-        x,r=accroll(v,x)
+        x,r=await self.accroll(v,x)
         if r<=4:
             return x
         elif r<=18:
@@ -93,7 +93,7 @@ class entity:
     async def Attack(self,ctx):
         x=discord.Embed(title="Results")
         v="The Effect"
-        x,r=accroll(v,x)
+        x,r=await self.accroll(v,x)
         if r<=4:
             return x
         elif r<=18:
