@@ -74,7 +74,7 @@ class Creep_command(commands.Cog):
         
         await ctx.send("Are you sure?")
         t= await self.bot.wait_for("message",timeout=120,check=accept)
-            while(t.content.lower()=="n" or t.content.lower()=="no"):
+        while(t.content.lower()=="n" or t.content.lower()=="no"):
             await ctx.send("What is the name of your Creature is it?")
             name=await self.bot.wait_for("message",timeout=120,check=person)
             

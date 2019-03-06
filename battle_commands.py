@@ -88,6 +88,18 @@ class BattleField(commands.Cog):
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
         await ctx.send(v[0][1]+" Has Joined the battle!!")
 
+    @battle.command(name="enemy")
+    @commands.check(start_check)
+    async def b_enemy(self,ctx,*,args):
+        ex="SELECT NAME, HP,MAG,ATK FROM creeps WHERE NAME ="+args
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v=await conn.fetch(ex)
+        t=v[0]
+        await conn.close()
+        self.players.append(entity(-1,t[0],t[1],t[2],t[3]))
+        await ctx.send(v[0][1]+" Has Joined the battle!!")
+
     @battle.command(name="show")
     @commands.check(start_check)
     async def b_show(self,ctx):
