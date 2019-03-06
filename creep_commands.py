@@ -91,7 +91,7 @@ class Creep_command(commands.Cog):
             await conn.close()
             return
         
-        ex="INSERT INTO creeps(name, disc,HP, MAG, ATK) VALUES('"+name.content.strip()+"'"+",'"+disc.content+"',"+str(stats[0]) +","+str(stats[1]) +","+str(stats[2]) +")")"
+        ex="INSERT INTO creeps(name, disc,HP, MAG, ATK) VALUES('"+name.content.strip()+"'"+",'"+disc.content+"',"+str(stats[0]) +","+str(stats[1]) +","+str(stats[2])+")"
         await ctx.send(ex)
         await conn.execute(ex)
         await conn.close()
