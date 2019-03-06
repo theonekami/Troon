@@ -218,7 +218,7 @@ class BattleField(commands.Cog):
 
     @roll.command(name="atk")
     async def b_roll_atk(self, ctx,*,args=None):
-        for i in players:
+        for i in self.players:
             if(i.id==ctx.message.author.id):
                 await ctx.send(embed=i.Attack(ctx))
             else:
@@ -226,7 +226,7 @@ class BattleField(commands.Cog):
 
     @roll.command(name="atke")
     async def b_roll_atke(self, ctx,*,args=None):
-        for i in enemy:
+        for i in self.enemies:
             if(i.name==args):
                 await ctx.send(embed=i.Attack(ctx))
             else:
@@ -235,7 +235,7 @@ class BattleField(commands.Cog):
 
     @roll.command(name="maj")
     async def b_roll_maj(self, ctx,*,args=None):
-        for i in players:
+        for i in self.players:
             if(i.id==ctx.message.author.id):
                 await ctx.send(embed=i.Attack(ctx))
             else:
@@ -243,7 +243,7 @@ class BattleField(commands.Cog):
 
     @roll.command(name="maje")
     async def b_roll_maje(self, ctx,*,args=None):
-        for i in enemy:
+        for i in self.enemies:
             if(i.name==args):
                 await ctx.send(embed=i.Attack(ctx))
             else:
@@ -251,7 +251,7 @@ class BattleField(commands.Cog):
             
     @roll.command(name="effect")
     async def b_roll_effect(self, ctx,*,args=None):
-        for i in players:
+        for i in self.players:
             if(i.id==ctx.message.author.id):
                 await ctx.send(embed=i.Attack(ctx))
             else:
@@ -259,7 +259,7 @@ class BattleField(commands.Cog):
 
     @roll.command(name="effecte")
     async def b_roll_effecte(self, ctx,*,args=None):
-        for i in enemy:
+        for i in self.enemies:
             if(i.name==args):
                 await ctx.send(embed=i.Attack(ctx))
             else:
