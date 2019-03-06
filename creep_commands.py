@@ -93,6 +93,7 @@ class Creep_command(commands.Cog):
         
         ex="INSERT INTO creeps(name, disc,HP, MAG, ATK) VALUES('"+name.content.strip().replace("'","\'")+"'"+",'"+disc.content.replace("'","\'")+"',"+str(stats[0]) +","+str(stats[1]) +","+str(stats[2])+")"
         await ctx.send(ex)
+        await ctx.send(disc.content.replace("'","\'"))
         await conn.execute(ex)
         await conn.close()
         await ctx.send(name.content+ "Has been added as a creep")
