@@ -64,7 +64,7 @@ class User_Command(commands.Cog):
         def accept(a):
             t=a.content.lower()
             y=["y","yes","n","no"]
-            return (t in y and person(a))
+            return ((t in y) and (person(a)))
 
         name=await self.bot.wait_for("message",timeout=120,check=person)
         await ctx.send("Is " + name.content + " your Desired name?")
