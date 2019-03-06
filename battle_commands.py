@@ -221,15 +221,16 @@ class BattleField(commands.Cog):
     @add.command(name="hp")
     async def b_add_hp(self, ctx, *, args):
         if len(ctx.message.mentions):
-            p=ctx.message.mentions[0]
+            q=ctx.message.mentions[0]
+            p=args.split(",")
             for i in self.players:
-                if (i.id==p.id):
-                    i.hp+=int(args.replace(",",""))
+                if (i.id==q.id):
+                    i.hp+=int(p[0])
         else:
             p=args.split(",")
             for i in self.enemies:
                 if (i.name==p[1]):
-                    i.hp+=int(args.replace(",",""))
+                    i.hp+=int(p[0])
 
 
     @battle.group()
