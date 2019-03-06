@@ -289,6 +289,7 @@ class BattleField(commands.Cog):
 
     @battle.group()
     @commands.check(start_check)
+    @commands.check(basic_check)
     async def roll(self, ctx):
         pass
 
@@ -301,7 +302,6 @@ class BattleField(commands.Cog):
                 await ctx.message.author.send("You are not in the battle.")
 
     @roll.command(name="atke")
-    @commands.check(basic_check)
     async def b_roll_atke(self, ctx,*,args=None):
         for i in self.enemies:
             if(i.name==args):
@@ -319,7 +319,6 @@ class BattleField(commands.Cog):
                 await ctx.message.author.send("You are not in the battle.")
 
     @roll.command(name="maje")
-    @commands.check(basic_check)
     async def b_roll_maje(self, ctx,*,args=None):
         for i in self.enemies:
             if(i.name==args):
@@ -328,7 +327,6 @@ class BattleField(commands.Cog):
         await ctx.message.author.send("Enemy not in the battle.")
             
     @roll.command(name="effect")
-    @commands.check(basic_check)
     async def b_roll_effect(self, ctx,*,args=None):
         for i in self.players:
             if(i.id==ctx.message.author.id):
@@ -337,7 +335,6 @@ class BattleField(commands.Cog):
         await ctx.message.author.send("Enemy not in the battle.")
 
     @roll.command(name="effecte")
-    @commands.check(basic_check)
     async def b_roll_effecte(self, ctx,*,args=None):
         for i in self.enemies:
             if(i.name==args):
