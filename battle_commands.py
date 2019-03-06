@@ -220,7 +220,7 @@ class BattleField(commands.Cog):
     async def b_roll_atk(self, ctx,*,args=None):
         for i in self.players:
             if(i.id==ctx.message.author.id):
-                await ctx.send(embed=i.Attack(ctx))
+                await ctx.send(embed=await i.Attack(ctx))
             else:
                 await ctx.message.author.send("You are not in the battle.")
 
@@ -228,7 +228,7 @@ class BattleField(commands.Cog):
     async def b_roll_atke(self, ctx,*,args=None):
         for i in self.enemies:
             if(i.name==args):
-                await ctx.send(embed=i.Attack(ctx))
+                await ctx.send(embed=await i.Attack(ctx))
             else:
                 await ctx.message.author.send("Enemy not in the battle.")
             
@@ -237,7 +237,7 @@ class BattleField(commands.Cog):
     async def b_roll_maj(self, ctx,*,args=None):
         for i in self.players:
             if(i.id==ctx.message.author.id):
-                await ctx.send(embed=i.Attack(ctx))
+                await ctx.send(embed=await i.Magic(ctx))
             else:
                 await ctx.message.author.send("You are not in the battle.")
 
@@ -245,7 +245,7 @@ class BattleField(commands.Cog):
     async def b_roll_maje(self, ctx,*,args=None):
         for i in self.enemies:
             if(i.name==args):
-                await ctx.send(embed=i.Attack(ctx))
+                await ctx.send(embed=await i.Magic(ctx))
             else:
                 await ctx.message.author.send("Enemy not in the battle.")
             
@@ -253,7 +253,7 @@ class BattleField(commands.Cog):
     async def b_roll_effect(self, ctx,*,args=None):
         for i in self.players:
             if(i.id==ctx.message.author.id):
-                await ctx.send(embed=i.Attack(ctx))
+                await ctx.send(embed=await i.Effect(ctx))
             else:
                 await ctx.message.author.send("You are not in the battle.")
 
@@ -261,7 +261,7 @@ class BattleField(commands.Cog):
     async def b_roll_effecte(self, ctx,*,args=None):
         for i in self.enemies:
             if(i.name==args):
-                await ctx.send(embed=i.Attack(ctx))
+                await ctx.send(embed=await i.Effect(ctx))
             else:
                 await ctx.message.author.send("Enemy not in the battle.")
             
