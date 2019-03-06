@@ -174,18 +174,32 @@ class BattleField(commands.Cog):
         self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
         await ctx.send(v[0][1]+" Has Joined the battle!!")
 
-    @battle.command(name="join")
+    @battle.command(name="leave")
     @commands.check(start_check)
     async def b_leave(self,ctx):
-
-        t=v[0]
         self.pl_no+=1
         for i in self.players:
-            if i.id==t[0]:
-                await ctx.message.author.send("You are already a part of this battle")
+            if i.id==ctx.message.author.id:
+                await ctx.message.author.send(i.name+" has left the battle")
+                self.players.remove(i)
                 return
-        self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
-        await ctx.send(v[0][1]+" Has Joined the battle!!")
+
+    @battle.command(name="kick")
+    @commands.check(start_check)
+    async def b_kick(self,ctx):
+        if len(ctx.message.mentions):
+            q=ctx.message.mentions[0]
+            p=args.split(",")
+            for i in self.players:
+                if (i.id==q.id):
+                    await ctx.message.author.send(i.name+" has left the battle")
+                    self.players.remove(i)
+        else:
+            p=args.split(",")
+            for i in self.enemies:
+                if (i.name==p[1].strip()):
+                    await ctx.message.author.send(i.name+" has left the battle")
+                    self.enemies.remove(i)
 
 
     @battle.command(name="show")
