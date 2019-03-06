@@ -87,7 +87,7 @@ class entity:
         else:
             rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)+"*1.5"
         rol=dice(rol)
-        x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" INT dmg")
+        x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" INT dmg",inline=False)
         return x
 
     async def Attack(self,ctx):
@@ -101,7 +101,7 @@ class entity:
         else:
             rol="1d"+str(self.mag//2+1)+"+"+str(self.mag//2+1)+"*1.5"
         rol=dice(rol)
-        x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" ATK dmg")
+        x.add_field(name="DAMAGE ROLL",value="You deal " +str(rol) +" ATK dmg",inline=False)
         return x
 
     
