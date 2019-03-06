@@ -70,7 +70,7 @@ class Creep_command(commands.Cog):
         
         await ctx.send("Stats?")
         stats=await self.bot.wait_for("message",timeout=120,check=person)
-        stats=statscontent.split("|")
+        stats=stats.content.split("|")
         
         await ctx.send("Are you sure?")
         t= await self.bot.wait_for("message",timeout=120,check=accept)
