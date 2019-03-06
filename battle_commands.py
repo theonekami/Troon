@@ -148,7 +148,7 @@ class BattleField(commands.Cog):
     @battle.command(name="end")
     @commands.check(basic_check)
     async def end(self,ctx):
-        await ctx.send(str(enemies))
+        await ctx.send(str(self.enemies))
         global start
         start =False
         self.players=[]
