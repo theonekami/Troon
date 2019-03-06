@@ -149,7 +149,6 @@ class BattleField(commands.Cog):
     @battle.command(name="end")
     @commands.check(basic_check)
     async def end(self,ctx):
-        await ctx.send(str(self.enemies))
         global start
         start =False
         self.players=[]
@@ -166,6 +165,19 @@ class BattleField(commands.Cog):
         conn = await asyncpg.connect(DATABASE_URL)
         v=await conn.fetch(ex)
         await conn.close()
+        t=v[0]
+        self.pl_no+=1
+        for i in self.players:
+            if i.id==t[0]:
+                await ctx.message.author.send("You are already a part of this battle")
+                return
+        self.players.append(entity(t[0],t[1],t[2],t[3],t[4]))
+        await ctx.send(v[0][1]+" Has Joined the battle!!")
+
+    @battle.command(name="join")
+    @commands.check(start_check)
+    async def b_leave(self,ctx):
+
         t=v[0]
         self.pl_no+=1
         for i in self.players:
@@ -229,7 +241,35 @@ class BattleField(commands.Cog):
         else:
             p=args.split(",")
             for i in self.enemies:
-                if (i.name==p[1]):
+                if (i.name==p[1].strip()):
+                    i.hp+=int(p[0])
+
+    @add.command(name="maj")
+    async def b_add_maj(self, ctx, *, args):
+        if len(ctx.message.mentions):
+            q=ctx.message.mentions[0]
+            p=args.split(",")
+            for i in self.players:
+                if (i.id==q.id):
+                    i.hp+=int(p[0])
+        else:
+            p=args.split(",")
+            for i in self.enemies:
+                if (i.name==p[1].strip()):
+                    i.hp+=int(p[0])
+
+    @add.command(name="atk")
+    async def b_add_atk(self, ctx, *, args):
+        if len(ctx.message.mentions):
+            q=ctx.message.mentions[0]
+            p=args.split(",")
+            for i in self.players:
+                if (i.id==q.id):
+                    i.hp+=int(p[0])
+        else:
+            p=args.split(",")
+            for i in self.enemies:
+                if (i.name==p[1].strip()):
                     i.hp+=int(p[0])
 
 
