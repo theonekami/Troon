@@ -85,7 +85,7 @@ class Creep_command(commands.Cog):
             stats=await self.bot.wait_for("message",timeout=120,check=person)
             stats=stats.content.split("|")
             
-        y=await conn.fetch("SELECT * FROM CREEPS WHERE NAME=" +name)
+        y=await conn.fetch("SELECT * FROM CREEPS WHERE NAME=" +name.content.strip())
         if(y):
             await ctx.send("Such a creature already exsits")
             await conn.close()
