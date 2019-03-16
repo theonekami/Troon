@@ -143,7 +143,7 @@ class User_Command(commands.Cog):
     async def oc_add_img(self,ctx,args):
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
-        await conn.execute("UPDATE OCS SET IMAGE ='"+str(t)+"' WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.execute("UPDATE OCS SET IMAGE ='"+args+"' WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
         await ctx.send("It is Done")
 
