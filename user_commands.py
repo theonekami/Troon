@@ -139,6 +139,30 @@ class User_Command(commands.Cog):
         await conn.close()
         await ctx.send("It is Done")
 
+    @add.command(name="img")
+    async def oc_add_img(self,ctx,args):
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        await conn.execute("UPDATE OCS SET IMAGE ='"+str(t)+"' WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")
+
+    @add.command(name="stats")
+    async def oc_add_stats(self,ctx,args):
+        ex="SELECT HP,MAG,ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        args=args.split(",")
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=[]
+        for i in range(0,len(v[0])):
+            t.append(v[0][i]+int(args[i]))
+        await conn.execute("UPDATE OCS SET HP="+str(t[0])+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.execute("UPDATE OCS SET MAG="+str(t[1])+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.execute("UPDATE OCS SET ATK="+str(t[2)+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")        
+
 
 def setup(bot):
     bot.add_cog(User_Command(bot))
