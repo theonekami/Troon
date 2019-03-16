@@ -36,7 +36,7 @@ def basic_check(ctx):  ##for funsies
 
 
 
-"""CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT, BIO VARCHAR, IMAGE VARCHAR)"""
+"""CREATE TABLE OCS(ID bIGINT,NAME VARCHAR,HP INT, MAG INT, ATK INT,MONEY INT,EXP INT,LEVEL INT BIO VARCHAR, IMAGE VARCHAR)"""
 
 
 class User_Command(commands.Cog):
@@ -159,7 +159,7 @@ class User_Command(commands.Cog):
             t.append(v[0][i]+int(args[i]))
         await conn.execute("UPDATE OCS SET HP="+str(t[0])+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.execute("UPDATE OCS SET MAG="+str(t[1])+" WHERE ID =" + str(ctx.message.mentions[0].id))
-        await conn.execute("UPDATE OCS SET ATK="+str(t[2)+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.execute("UPDATE OCS SET ATK="+str(t[2])+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
         await ctx.send("It is Done")        
 
