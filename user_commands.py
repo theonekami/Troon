@@ -74,7 +74,7 @@ class User_Command(commands.Cog):
             name=await self.bot.wait_for("message",timeout=120,check=person)
             await ctx.send("Is " + name.content + " your Desired name?")
             t= await self.bot.wait_for("message",timeout=120,check=accept)
-        ex="INSERT INTO ocs(id,name, HP, MAG, ATK) VALUES("+str(ctx.message.author.id)+",'"+name.content+"'"+","+"0,0,0)"
+        ex="INSERT INTO ocs(id,name, HP, MAG, ATK,money) VALUES("+str(ctx.message.author.id)+",'"+name.content+"'"+","+"0,0,0,1000)"
         await conn.execute(ex)
         await conn.close()
         await ctx.send("Welcome to Creata "+ name.content)
@@ -147,6 +147,26 @@ class User_Command(commands.Cog):
         await conn.close()
         await ctx.send("It is Done")
 
+    @add.command(name="bio")
+    async def oc_add_bio(self,ctx,args):
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        await conn.execute("UPDATE OCS SET bio ='"+args+"' WHERE ID =" + str(ctx.message.author.id))
+        await conn.close()
+        await ctx.send("It is Done")
+
+    @add.command(name="money")
+    @commands.check(basic_check)
+    async def oc_add_money(self,ctx,args):
+        ex="SELECT MONEY FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=v[0][0]+int(args)
+        await conn.execute("UPDATE OCS SET MONEY ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")
+
     @add.command(name="stats")
     async def oc_add_stats(self,ctx,args):
         ex="SELECT HP,MAG,ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
@@ -161,7 +181,31 @@ class User_Command(commands.Cog):
         await conn.execute("UPDATE OCS SET MAG="+str(t[1])+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.execute("UPDATE OCS SET ATK="+str(t[2])+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
-        await ctx.send("It is Done")        
+        await ctx.send("It is Done")
+
+    @add.command(name="exp")
+    @commands.check(basic_check)
+    async def oc_add_exp(self,ctx,args):
+        ex="SELECT EXP FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        l="SELECT LEVEL FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=v[0][0]+int(args)
+        while(t>50):
+            if l==9:
+                await conn.execute("UPDATE ocs SET level ="+str(1)+" WHERE id=" + str(ctx.message.mentions[0].id))
+                await ctx.message.mentions[0].send("You have COmpleted the book. Gratz!")
+                t=0
+                break
+            else:
+                await conn.execute("UPDATE ocs SET level ="+str(l[0][0]+1)+" WHERE id=" + str(ctx.message.mentions[0].id))
+            t-=20
+            await ctx.message.mentions[0].send("You have leveled up!")
+        y=await conn.fetch("UPDATE ocs SET exp ="+ str(t)+" WHERE id=" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")
+
 
 
 def setup(bot):
