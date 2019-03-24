@@ -91,7 +91,7 @@ class User_Command(commands.Cog):
             if( i=="id"):
                 continue
             elif(i=="image" and j ):
-                x.set_img(url=i)
+                x.set_image(url=i)
                 continue
             elif(i=="name" and j):
                 x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
