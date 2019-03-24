@@ -167,6 +167,18 @@ class User_Command(commands.Cog):
         await conn.close()
         await ctx.send("It is Done")
 
+    @add.command(name="Book")
+    @commands.check(basic_check)
+    async def oc_add_atk(self,ctx,args):
+        ex="SELECT ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
+        DATABASE_URL = os.environ['DATABASE_URL']
+        conn = await asyncpg.connect(DATABASE_URL)
+        v= await conn.fetch(ex)
+        t=v[0][0]+int(args)
+        await conn.execute("UPDATE OCS SET ATK ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
+        await conn.close()
+        await ctx.send("It is Done")
+
     @add.command(name="stats")
     async def oc_add_stats(self,ctx,args):
         ex="SELECT HP,MAG,ATK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
