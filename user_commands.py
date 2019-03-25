@@ -91,13 +91,13 @@ class User_Command(commands.Cog):
         await conn.close()
         x= discord.Embed(title=v[0]["name"])
         x.add_field(name="Name", value=v[0]["name"].capitalize,inline=False)
-        x.add_field(name="HP", value=v[0]["hp"].capitalize,inline=True)
-        x.add_field(name="INT", value=v[0]["mag"].capitalize,inline=True)
-        x.add_field(name="ATK", value=v[0]["atk"].capitalize,inline=True)
-        x.add_field(name="Bio", value=v[0]["bio"].capitalize,inline=False)
-        x.add_field(name="Current Book", value=v[0]["books"].capitalize,inline=False)
-        x.add_field(name="Level", value=v[0]["name"].capitalize,inline=False)
-        x.add_field(name="Money", value=v[0]["money"].capitalize,inline=True)
+        x.add_field(name="HP", value=v[0]["hp"],inline=True)
+        x.add_field(name="INT", value=v[0]["mag"],inline=True)
+        x.add_field(name="ATK", value=v[0]["atk"],inline=True)
+        x.add_field(name="Bio", value=v[0]["bio"],inline=False)
+        x.add_field(name="Current Book", value=v[0]["books"],inline=False)
+        x.add_field(name="Level", value=v[0]["level"],inline=False)
+        x.add_field(name="Money", value=v[0]["money"],inline=True)
         if (v[0]["image"]):
             x.set_image(url=str(v[0]["image"]))
         await ctx.send(embed=x)
@@ -184,7 +184,7 @@ class User_Command(commands.Cog):
         await conn.close()
         await ctx.send("It is Done")
 
-    @add.command(name="Book")
+    @add.command(name="book")
     @commands.check(basic_check)
     async def oc_add_book(self,ctx,*,args):
         ex="SELECT BOOK FROM OCS WHERE( id= "+str(ctx.message.mentions[0].id)+")"
