@@ -89,8 +89,7 @@ class User_Command(commands.Cog):
         conn = await asyncpg.connect(DATABASE_URL)
         v= await conn.fetch(ex)
         await conn.close()
-        x= discord.Embed(title=v[0]["name"])
-        x.add_field(name="Name", value=v[0]["name"].capitalize,inline=False)
+        x= discord.Embed(title=v[0]["name"].capitalize())
         x.add_field(name="HP", value=v[0]["hp"],inline=True)
         x.add_field(name="INT", value=v[0]["mag"],inline=True)
         x.add_field(name="ATK", value=v[0]["atk"],inline=True)
@@ -191,7 +190,7 @@ class User_Command(commands.Cog):
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v= await conn.fetch(ex)
-        t=str(args)+"\n" + v[0][0]
+        t=str(args.split(",")[0])
         await conn.execute("UPDATE OCS SET ATK ="+str(t)+" WHERE ID =" + str(ctx.message.mentions[0].id))
         await conn.close()
         await ctx.send("It is Done")
