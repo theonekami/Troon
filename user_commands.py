@@ -81,23 +81,30 @@ class User_Command(commands.Cog):
 
     @oc.command(name="show")
     async def oc_show(self, ctx):
-        ex="SELECT * FROM OCS WHERE( id= "+str(ctx.message.author.id)+")"
+        men=ctx.message.author
+        if(len(ctx.message.mentions)):
+            men=ctx.message.mentions[0]
+        ex="SELECT * FROM OCS WHERE( id= "+str(men.id)+")"
         DATABASE_URL = os.environ['DATABASE_URL']
         conn = await asyncpg.connect(DATABASE_URL)
         v= await conn.fetch(ex)
         await conn.close()
-        x= discord.Embed(title="Info")
-        for i,j in v[0].items():
-            if( i=="id"):
-                continue
-            elif(i=="image" and j ):
-                x.set_image(url=str(j))
-                continue
-            elif(i=="name" and j):
-                x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=False)
-                continue
-            x.add_field(name=i.capitalize(),value=str(j).capitalize(), inline=True)
+        x= discord.Embed(title=v[0]["name"])
+        x.add_field(name="Name", value=v[0]["name"].capitalize,inline=False)
+        x.add_field(name="HP", value=v[0]["hp"].capitalize,inline=True)
+        x.add_field(name="INT", value=v[0]["mag"].capitalize,inline=True)
+        x.add_field(name="ATK", value=v[0]["atk"].capitalize,inline=True)
+        x.add_field(name="Bio", value=v[0]["bio"].capitalize,inline=False)
+        x.add_field(name="Current Book", value=v[0]["books"].capitalize,inline=False)
+        x.add_field(name="Level", value=v[0]["name"].capitalize,inline=False)
+        x.add_field(name="Money", value=v[0]["money"].capitalize,inline=True)
+        if (v[0]["image"]):
+            x.set_image(url=str(v[0]["image"]))
         await ctx.send(embed=x)
+
+################################################################################
+## ADD set of commands
+################################################################################
 
     @oc.group()
     async def add(self, ctx):
@@ -139,6 +146,12 @@ class User_Command(commands.Cog):
         await conn.close()
         await ctx.send("It is Done")
 
+
+####################################################################################################\
+##        SIMPLE Add
+####################################################################################################
+
+
     @add.command(name="img")
     async def oc_add_img(self,ctx,args):
         DATABASE_URL = os.environ['DATABASE_URL']
@@ -154,6 +167,10 @@ class User_Command(commands.Cog):
         await conn.execute("UPDATE OCS SET bio ='"+args+"' WHERE ID =" + str(ctx.message.author.id))
         await conn.close()
         await ctx.send("It is Done")
+
+####################################################################################################\
+##        Check Add
+####################################################################################################
 
     @add.command(name="money")
     @commands.check(basic_check)
